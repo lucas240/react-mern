@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
+
+import { Card, Form, Button, Error } from "../styles/elements";
 
 function AddWilder() {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     name: "",
     city: "",
@@ -14,31 +19,53 @@ function AddWilder() {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("success");
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    try {
+      setLoading(true);
+      const result = await axios.post(
+        `${process.env.REACT_APP_API_URL}create`,
+        input
+      );
+      console.log(result);
+      if (result.data.success) {
+        setError("");
+      }
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
+    <Card>
       <h3>Add wilders</h3>
-      <div>
+      <Form onSubmit={handleSubmit}>
         <input
-          placeholder="Dossier Mr Paul"
+          placeholder="Paul"
           name="name"
           value={name}
           onChange={handleInputChange}
         />
         <input
-          placeholder="Valentin, Clément, Jessica..."
+          placeholder="Nice"
           name="city"
           value={city}
           onChange={handleInputChange}
         />
-      </div>
+      </Form>
+      {error !== "" && <Error>{error}</Error>}
       <div>
-        <button handleClick={handleSubmit}>Add</button>
+        <Button onClick={handleSubmit}>
+          {loading ? <img alt="loading" /> : "Add"}
+        </Button>
       </div>
-    </div>
+    </Card>
   );
 }
 

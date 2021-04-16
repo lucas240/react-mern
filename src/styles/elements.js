@@ -7,6 +7,10 @@ export const Container = styled.div`
   margin-top: 30px;
 `;
 
+export const Section = styled.section`
+  margin-top: 30px;
+`;
+
 export const Header = styled.header`
   text-align: center;
   background-color: ${colors.primary};
@@ -52,8 +56,32 @@ export const Card = styled.div`
   border-radius: 15px;
   margin-right: 30px;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const List = styled.ul`
   display: flex;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const Button = styled.button`
+  background-color: ${({ showLoading }) =>
+    showLoading ? "#fff" : colors.primary};
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  display: inline-block;
+`;
+
+export const Error = styled.span`
+  color: red;
 `;
