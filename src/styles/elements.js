@@ -54,12 +54,19 @@ export const ItemVotes = styled.span`
 export const Card = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  margin-right: 30px;
+  margin: 30px;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  min-width: 200px;
+`;
+
+export const CardRow = styled.section`
+  display: grid;
+  grid-template-columns: repeat(3, 32%);
+  justify-content: space-between;
 `;
 
 export const List = styled.ul`
