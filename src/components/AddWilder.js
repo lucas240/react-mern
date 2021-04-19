@@ -6,6 +6,7 @@ import { Card, Form, Button, Error } from "../styles/elements";
 function AddWilder() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [delayed, setDelayed] = useState(false);
   const [input, setInput] = useState({
     name: "",
     city: "",
@@ -22,7 +23,9 @@ function AddWilder() {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
+      setDelayed(true);
       setLoading(true);
+      setTimeout(() => setDelayed(false), 1000);
       const result = await axios.post(
         `${process.env.REACT_APP_API_URL}create`,
         input
@@ -61,8 +64,8 @@ function AddWilder() {
       </Form>
       {error !== "" && <Error>{error}</Error>}
       <div>
-        <Button onClick={handleSubmit}>
-          {loading ? <img alt="loading" /> : "Add"}
+        <Button disabled={loading} onClick={handleSubmit}>
+          {loading && !delayed ? <img alt="loading" /> : "Add"}
         </Button>
       </div>
     </Card>

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./App.css";
 
-import { Header, Section, Container } from "./styles/elements";
+import { Header, Section, Container, Button, CardRow } from "./styles/elements";
 
 import Wilder from "./components/Wilder";
 import AddWilder from "./components/AddWilder";
 
 function App() {
   const [wilders, setWilders] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const fetchWilders = async () => {
@@ -23,16 +25,19 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="app">
       <Header>
         <p>App wilders</p>
       </Header>
       <div>
         <Section>
           <Container>
-            <AddWilder />
+            <Button onClick={() => setShowForm(!showForm)}>
+              {showForm ? "Close form" : "Open form"}
+            </Button>
           </Container>
-          <Container>
+          <Container>{showForm ? <AddWilder /> : <></>}</Container>
+          <CardRow>
             {wilders.map((elt) => (
               <Wilder
                 key={elt._id}
@@ -41,7 +46,7 @@ function App() {
                 skills={elt.skills}
               />
             ))}
-          </Container>
+          </CardRow>
         </Section>
       </div>
     </div>
