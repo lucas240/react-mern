@@ -1,5 +1,36 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { colors } from "./variables";
+
+type ItemVotesProps = {
+  votes: number;
+};
+
+type ButtonProps = {
+  showLoading?: boolean;
+};
+
+const focus = `
+:focus {
+    border-color: hsl(${colors.focus.h}, ${colors.focus.s}, ${colors.focus.l});
+    box-shadow: 0 0 0 3px
+      hsla(
+        ${colors.focus.h},
+        ${colors.focus.s},
+        calc(${colors.focus.l} + 40%),
+        0.8
+      );
+    outline: 3px solid transparent;
+  }`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -33,7 +64,7 @@ export const Item = styled.li`
   border-radius: 9999px;
 `;
 
-export const ItemVotes = styled.span`
+export const ItemVotes = styled.span<ItemVotesProps>`
   /* Center the content */
   align-items: center;
   display: flex;
@@ -74,19 +105,27 @@ export const List = styled.ul`
 `;
 
 export const Form = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  place-content: center;
+  grid-gap: 0.5rem;
+  background-color: #e9f2fd;
+  padding: 1rem;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<ButtonProps>`
   background-color: ${({ showLoading }) =>
     showLoading ? "#fff" : colors.primary};
   color: #fff;
   padding: 0.5em 1em;
   border-radius: 4px;
   display: inline-block;
+  ${focus}
+  svg {
+    width: 47px !important;
+    height: 47px !important;
+    animation: ${rotate} 2s linear infinite;
+    animation-play-state: running !important;
+  }
 `;
 
 export const Error = styled.span`

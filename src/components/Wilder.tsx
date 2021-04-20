@@ -3,8 +3,9 @@ import Proptypes from "prop-types";
 import { List, Card } from "../styles/elements";
 
 import Skill from "./Skill";
+import { WilderProps } from "../App";
 
-function Wilder(props) {
+function Wilder(props: WilderProps) {
   const { name, city, skills } = props;
 
   return (

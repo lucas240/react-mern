@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { Card, Form, Button, Error } from "../styles/elements";
+import { Form, Button, Error } from "../styles/elements";
 
 function AddWilder() {
   const [error, setError] = useState("");
@@ -13,21 +13,21 @@ function AddWilder() {
   });
   const { name, city } = input;
 
-  const handleInputChange = (evt) => {
+  const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
       [evt.target.name]: evt.target.value,
     });
   };
 
-  const handleSubmit = async (evt) => {
+  const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     try {
       setDelayed(true);
       setLoading(true);
       setTimeout(() => setDelayed(false), 1000);
       const result = await axios.post(
-        `${process.env.REACT_APP_API_URL}create`,
+        `${process.env.REACT_APP_API_URL}`,
         input
       );
       console.log(result);
@@ -46,29 +46,27 @@ function AddWilder() {
   };
 
   return (
-    <Card>
+    <div>
       <h3>Add wilders</h3>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={(evt) => handleSubmit(evt)}>
         <input
           placeholder="Paul"
           name="name"
           value={name}
-          onChange={handleInputChange}
+          onChange={(evt) => handleInputChange(evt)}
         />
         <input
           placeholder="Nice"
           name="city"
           value={city}
-          onChange={handleInputChange}
+          onChange={(evt) => handleInputChange(evt)}
         />
-      </Form>
-      {error !== "" && <Error>{error}</Error>}
-      <div>
-        <Button disabled={loading} onClick={handleSubmit}>
+        {error !== "" && <Error>{error}</Error>}
+        <Button disabled={loading} showLoading={loading && !delayed}>
           {loading && !delayed ? <img alt="loading" /> : "Add"}
         </Button>
-      </div>
-    </Card>
+      </Form>
+    </div>
   );
 }
 

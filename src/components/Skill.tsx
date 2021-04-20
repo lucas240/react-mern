@@ -2,12 +2,17 @@ import React from "react";
 import Proptypes from "prop-types";
 import { Item, ItemVotes } from "../styles/elements";
 
-function Skill(props) {
+export type SkillsProps = {
+  title: string;
+  votes: number;
+};
+
+function Skill(props: SkillsProps) {
   const { title, votes } = props;
   return (
     <Item>
       {title}
-      <ItemVotes>{votes}</ItemVotes>
+      <ItemVotes votes={votes}>{votes}</ItemVotes>
     </Item>
   );
 }
