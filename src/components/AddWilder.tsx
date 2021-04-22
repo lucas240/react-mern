@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { Form, Button, Error } from "../styles/elements";
 
-function AddWilder() {
+function AddWilder({ onSuccess }: { onSuccess: (message: string) => void }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [delayed, setDelayed] = useState(false);
@@ -33,6 +33,9 @@ function AddWilder() {
       console.log(result);
       if (result.data.success) {
         setError("");
+        onSuccess(
+          `The wilder ${result.data.result.name} has been successfully added`
+        );
       }
     } catch (error) {
       if (error.response) {
@@ -44,6 +47,19 @@ function AddWilder() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Happens when a dependency changes
+    if (delayed) {
+      const timer = setTimeout(() => {
+        setDelayed(false);
+      }, 500);
+      return function cleanup() {
+        // Happens when the component unmounts
+        clearTimeout(timer);
+      };
+    }
+  }, [delayed]);
 
   return (
     <div>

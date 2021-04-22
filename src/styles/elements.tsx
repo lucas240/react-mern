@@ -128,6 +128,10 @@ export const Button = styled.button<ButtonProps>`
   }
 `;
 
-export const Error = styled.span`
-  color: red;
+export const Error = styled.p`
+  background-color: red;
+`;
+
+export const Success = styled.p`
+  background-color: green;
 `;

@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-import { Header, Section, Container, Button, CardRow } from "./styles/elements";
+import {
+  Header,
+  Section,
+  Container,
+  Button,
+  CardRow,
+  Success,
+} from "./styles/elements";
 
 import Wilder from "./components/Wilder";
 import AddWilder from "./components/AddWilder";
@@ -18,6 +25,7 @@ export type WilderProps = {
 function App() {
   const [wilders, setWilders] = useState<WilderProps[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const fetchWilders = async () => {
     try {
@@ -45,7 +53,18 @@ function App() {
               {showForm ? "Close form" : "Open form"}
             </Button>
           </Container>
-          <Container>{showForm ? <AddWilder /> : <></>}</Container>
+          <Container>
+            {showForm ? (
+              <AddWilder
+                onSuccess={(message: string) => {
+                  setShowForm(false);
+                  setSuccessMessage(message);
+                }}
+              />
+            ) : (
+              successMessage !== "" && <Success>{successMessage}</Success>
+            )}
+          </Container>
           <CardRow>
             {wilders.map((elt) => (
               <Wilder
